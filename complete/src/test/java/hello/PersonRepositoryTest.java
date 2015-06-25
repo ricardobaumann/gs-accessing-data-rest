@@ -11,15 +11,25 @@ import javax.inject.Inject;
 
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.results.ResultMatchers;
 import org.mockito.Mockito;
+
+import static org.hamcrest.Matchers.*;
+import static org.springframework.test.web.server.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.server.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.server.result.MockMvcResultMatchers.status;
+
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.result.StatusResultMatchers;
 
 /**
@@ -70,14 +80,7 @@ public class PersonRepositoryTest extends AbstractRestControllerTest{
 		
 		
 		Mockito.when(personRepositoryMock.findAll()).thenReturn(new ArrayList<Person>());
-		mockMvc.perform(MockMvcRequestBuilders.get("/people")).andExpect(new ResultMatcher() {
-			
-			@Override
-			public void match(MvcResult result) throws Exception {
-				System.out.println("status: "+result.getResponse().getStatus());
-				
-			}
-		});
+		mockMvc.perform(MockMvcRequestBuilders.get("/people")).andExpect(MockMvcResultMatchers.status().isOk());
 	}
 
 	/**
