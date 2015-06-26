@@ -15,22 +15,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.experimental.results.ResultMatchers;
 import org.mockito.Mockito;
-
-import static org.hamcrest.Matchers.*;
-import static org.springframework.test.web.server.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.server.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.server.result.MockMvcResultMatchers.status;
-
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.ResultMatcher;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.result.StatusResultMatchers;
 
 /**
  * @author ricardo
@@ -75,12 +65,13 @@ public class PersonRepositoryTest extends AbstractRestControllerTest{
 	 */
 	@Test
 	public void testFindByLastName() throws Exception {
+		ArrayList<Person> list = new ArrayList<Person>();
+		Mockito.when(personRepositoryMock.findAll()).thenReturn(list);
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/people")).andExpect(MockMvcResultMatchers.status().isOk()).
+		andExpect(MockMvcResultMatchers.content().contentType(MediaTypes.HAL_JSON))
+		.andReturn();
 		
-		
-		
-		
-		Mockito.when(personRepositoryMock.findAll()).thenReturn(new ArrayList<Person>());
-		mockMvc.perform(MockMvcRequestBuilders.get("/people")).andExpect(MockMvcResultMatchers.status().isOk());
+		Assert.assertNotNull(result.getResponse().getContentAsString());
 	}
 
 	/**
