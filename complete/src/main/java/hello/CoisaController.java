@@ -2,6 +2,7 @@ package hello;
 
 import javax.inject.Inject;
 
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -9,21 +10,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class CoisaController {
+@RequestMapping("/coisa")
+public class CoisaController extends CrudController<Teste>{
 
 	@Inject
-	protected CoisaRepository testeRepository;
+	private TesteRepository testeRepository;
 	
-	@RequestMapping("/coisa")
-	public @ResponseBody Teste getAllTestes() {
-		
-		return new Teste("nome"); 
+	@Override
+	public PagingAndSortingRepository<Teste, Long> getRepository() {
+		return testeRepository;
 	}
+
 	
-//	@RequestMapping(method=RequestMethod.POST)
-//	public Teste post(@RequestBody Teste entity) {
-//		return testeRepository.save(entity);
-//	}
 //	
 	
 }
