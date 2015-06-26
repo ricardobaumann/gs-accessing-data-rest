@@ -11,6 +11,11 @@ public class TestRestServiceConfig {
 	public PersonRepository personRepositoryMock() {
 		return Mockito.mock(PersonRepository.class);
 	}
+	
+	@Bean
+	public TesteRepository testeRepositoryMock() {
+		return Mockito.mock(TesteRepository.class);
+	}
 
 //    @Bean
 //    public UserAccountService userAccountServiceMock() {
