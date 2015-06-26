@@ -18,7 +18,6 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -65,13 +64,7 @@ public class PersonRepositoryTest extends AbstractRestControllerTest{
 	 */
 	@Test
 	public void testFindByLastName() throws Exception {
-		ArrayList<Person> list = new ArrayList<Person>();
-		Mockito.when(personRepositoryMock.findAll()).thenReturn(list);
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/people")).andExpect(MockMvcResultMatchers.status().isOk()).
-		andExpect(MockMvcResultMatchers.content().contentType(MediaTypes.HAL_JSON))
-		.andReturn();
 		
-		Assert.assertNotNull(result.getResponse().getContentAsString());
 	}
 
 	/**
@@ -108,60 +101,71 @@ public class PersonRepositoryTest extends AbstractRestControllerTest{
 
 	/**
 	 * Test method for {@link org.springframework.data.repository.CrudRepository#findOne(java.io.Serializable)}.
+	 * @throws Exception 
 	 */
 	@Test
-	public void testFindOne() {
-		fail("Not yet implemented");
+	public void testFindOneSucess() throws Exception {
+		Person person = new Person();
+		person.setFirstName("first");
+		person.setLastName("last");
+		
+		ArrayList<Long> ids = new ArrayList<Long>();
+		ids.add(1L);
+		
+		Mockito.when(personRepositoryMock.exists(1L)).thenReturn(true);
+		Mockito.when(personRepositoryMock.findAll(ids)).thenReturn(new ArrayList<Person>());
+		Mockito.when(personRepositoryMock.findOne(1L)).thenReturn(person);
+		
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/people/1").accept(MediaTypes.HAL_JSON))
+		//.andExpect(MockMvcResultMatchers.status().isOk())
+		.andExpect(MockMvcResultMatchers.content().contentType(MediaTypes.HAL_JSON))
+		.andReturn();
+		
+		System.out.println("resultado: "+result.getResponse().getContentAsString());  
+		
+		Assert.assertNotNull(result.getResponse().getContentAsString());
+		
+		//Mockito.verify(personRepositoryMock).findOne(1L);
 	}
 
-	/**
-	 * Test method for {@link org.springframework.data.repository.CrudRepository#exists(java.io.Serializable)}.
-	 */
-	@Test
-	public void testExists() {
-		fail("Not yet implemented");
-	}
+	
 
 	/**
 	 * Test method for {@link org.springframework.data.repository.CrudRepository#findAll()}.
+	 * @throws Exception 
 	 */
 	@Test
-	public void testFindAll() {
-		fail("Not yet implemented");
+	public void testFindAll() throws Exception {  
+		ArrayList<Person> list = new ArrayList<Person>();
+		Mockito.when(personRepositoryMock.findAll()).thenReturn(list);
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/people")).andExpect(MockMvcResultMatchers.status().isOk()).
+		andExpect(MockMvcResultMatchers.content().contentType(MediaTypes.HAL_JSON))
+		.andReturn();
+		
+		System.out.println("resultado: "+result.getResponse().getContentAsString());  
+		
+		Assert.assertNotNull(result.getResponse().getContentAsString());
+		
+		Mockito.verify(personRepositoryMock).findAll();
 	}
 
-	/**
-	 * Test method for {@link org.springframework.data.repository.CrudRepository#findAll(java.lang.Iterable)}.
-	 */
-	@Test
-	public void testFindAllIterableOfID() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link org.springframework.data.repository.CrudRepository#count()}.
-	 */
-	@Test
-	public void testCount() {
-		fail("Not yet implemented");
-	}
-
+	
 	/**
 	 * Test method for {@link org.springframework.data.repository.CrudRepository#delete(java.io.Serializable)}.
+	 * @throws Exception 
 	 */
 	@Test
-	public void testDeleteID() {
-		fail("Not yet implemented");
+	public void testDeleteID() throws Exception {
+		
+		Mockito.when(personRepositoryMock.exists(1L)).thenReturn(true);
+		Mockito.doNothing().when(personRepositoryMock).delete(1L);
+		
+		mockMvc.perform(MockMvcRequestBuilders.delete("/people/1").accept(MediaTypes.HAL_JSON))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andReturn();
 	}
 
-	/**
-	 * Test method for {@link org.springframework.data.repository.CrudRepository#delete(java.lang.Object)}.
-	 */
-	@Test
-	public void testDeleteT() {
-		fail("Not yet implemented");
-	}
-
+	
 	/**
 	 * Test method for {@link org.springframework.data.repository.CrudRepository#delete(java.lang.Iterable)}.
 	 */
@@ -170,12 +174,6 @@ public class PersonRepositoryTest extends AbstractRestControllerTest{
 		fail("Not yet implemented");
 	}
 
-	/**
-	 * Test method for {@link org.springframework.data.repository.CrudRepository#deleteAll()}.
-	 */
-	@Test
-	public void testDeleteAll() {
-		fail("Not yet implemented");
-	}
+	
 
 }
