@@ -1,9 +1,5 @@
 package hello;
 
-import java.lang.reflect.InvocationTargetException;
-
-import javax.websocket.server.PathParam;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -28,7 +24,11 @@ public abstract class CrudController<T> {
 	
 	@RequestMapping(method=RequestMethod.GET,value="{id}")
 	public T findByID(@PathVariable("id") Long id) {
-		return getRepository().findOne(id);
+		T t = getRepository().findOne(id);
+		if (t==null) {
+			throw new NotFoundException();
+		}
+		return t;
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
