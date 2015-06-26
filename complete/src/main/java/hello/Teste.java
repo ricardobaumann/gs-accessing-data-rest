@@ -12,6 +12,18 @@ public class Teste {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
+	public Teste(String string) {
+		setName(string);
+	}
+	
+	
+
+	public Teste() {
+		super();
+	}
+
+
+
 	public long getId() {
 		return id;
 	}

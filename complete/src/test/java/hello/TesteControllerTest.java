@@ -1,20 +1,17 @@
 package hello;
 
-import javax.inject.Inject;
-
+import org.junit.Assert;
 import org.junit.Test;
 
-public class TesteControllerTest extends AbstractRestControllerTest{
+public class TesteControllerTest extends AbstractControllerTest{
 
-	@Inject
-	private TesteRepository testeRepositoryMock;
 	
-	public void setup() {
-		
-	}
 	
 	@Test
-	public void test() {
+	public void test() throws Exception {
+		Teste teste = getForObject("coisa",Teste.class);
+		Assert.assertNotNull(teste);
+		Assert.assertEquals(teste.getName(), "nome");
 		
 	}
 	
