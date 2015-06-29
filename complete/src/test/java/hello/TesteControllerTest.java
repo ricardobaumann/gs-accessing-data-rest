@@ -13,7 +13,6 @@ public class TesteControllerTest extends AbstractRestControllerTest{
 	public void testEmpty() throws Exception {
 		TestPage<Teste> teste = getForObject("coisa",TestPage.class);
 		Assert.assertNotNull(teste);
-		System.out.println(teste);
 		
 		Assert.assertEquals(teste.getNumberOfElements().intValue(), 0);
 		
