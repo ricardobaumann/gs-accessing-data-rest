@@ -8,6 +8,8 @@ public class TestPage<T> extends ResourceSupport{
 	private T content;
 	
 	private Integer numberOfElements;
+	
+	private Integer totalElements;
 
     private Page page;
 
@@ -33,6 +35,14 @@ public class TestPage<T> extends ResourceSupport{
 
 	public void setNumberOfElements(Integer numberOfElements) {
 		this.numberOfElements = numberOfElements;
+	}
+
+	public Integer getTotalElements() {
+		return totalElements;
+	}
+
+	public void setTotalElements(Integer totalElements) {
+		this.totalElements = totalElements;
 	}
     
     

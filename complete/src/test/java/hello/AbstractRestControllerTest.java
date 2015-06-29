@@ -1,6 +1,8 @@
 package hello;
 
+import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -13,15 +15,25 @@ public class AbstractRestControllerTest {
 	private static String BASE_URL;
 	
 	@BeforeClass
-	public static void setup() {
+	public static void beforeClass() {
 		System.setProperty("server.port", "9091");
-		r = SpringApplication.run(Application.class);
+		
 		BASE_URL = "http://localhost:"+System.getProperty("server.port")+"/";
 	}
 	
 	@AfterClass
-	public static void tearDown() {
-		r.close();
+	public static void afterClass() {
+		
+	}
+	
+	@Before
+	public void before() {
+		r = SpringApplication.run(Application.class);
+	}
+	
+	@After  
+	public void after() {
+		r.close();  
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -29,9 +41,9 @@ public class AbstractRestControllerTest {
 		return (T) restTemplate.getForObject(getEntityURL(path), clazz, values);
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public <T> T post(String path,T request, Class responseType,Object...values) {
-		return (T) restTemplate.postForEntity(getEntityURL(path), request, responseType, values);
+	
+	public <T> T post(String path,T request, Class<T> responseType,Object...values) {
+		return restTemplate.postForEntity(getEntityURL(path), request, responseType, values).getBody();
 	}
 	  
 	public void put(String path,Object request, Object...values) {
