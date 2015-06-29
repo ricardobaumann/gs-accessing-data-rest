@@ -1,5 +1,7 @@
 package hello;
 
+import java.util.Random;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -14,9 +16,22 @@ public class AbstractRestControllerTest {
 	private static ConfigurableApplicationContext r;
 	private static String BASE_URL;
 	
+	static {
+		Random foo = new Random();
+		int max = 9999;
+		int min = 8080;
+        int randomNumber = foo.nextInt(max - min) + min;
+        if(randomNumber == min) {
+        	System.setProperty("server.port", String.valueOf(min+1));
+        }
+        else {
+        	System.setProperty("server.port", String.valueOf(randomNumber));  
+        }
+	}
+	
 	@BeforeClass
 	public static void beforeClass() {
-		System.setProperty("server.port", "9091");
+		
 		
 		BASE_URL = "http://localhost:"+System.getProperty("server.port")+"/";
 	}
