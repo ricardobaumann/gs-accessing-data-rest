@@ -3,16 +3,20 @@ package hello;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class TesteControllerTest extends AbstractControllerTest{
+public class TesteControllerTest extends AbstractRestControllerTest{
 
 	
 	
 	@Test
-	public void test() throws Exception {
-		Teste teste = getForObject("coisa",Teste.class);
+	public void testEmpty() throws Exception {
+		TestPage<Teste> teste = getForObject("coisa",TestPage.class);
 		Assert.assertNotNull(teste);
-		Assert.assertEquals(teste.getName(), "nome");
+		System.out.println(teste);
+		
+		Assert.assertEquals(teste.getNumberOfElements().intValue(), 0);
 		
 	}
+	
+	
 	
 }

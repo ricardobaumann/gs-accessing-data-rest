@@ -1,25 +1,26 @@
 package hello;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.client.RestTemplate;
 
-public class AbstractControllerTest {
-
-	private RestTemplate restTemplate = new RestTemplate();
-	private ConfigurableApplicationContext r;
-	private static final String BASE_URL = "http://localhost:8080/";
+public class AbstractRestControllerTest {
 	
-	@Before
-	public void setup() {
+	private RestTemplate restTemplate = new RestTemplate();
+	private static ConfigurableApplicationContext r;
+	private static String BASE_URL;
+	
+	@BeforeClass
+	public static void setup() {
+		System.setProperty("server.port", "9091");
 		r = SpringApplication.run(Application.class);
-		
+		BASE_URL = "http://localhost:"+System.getProperty("server.port")+"/";
 	}
 	
-	@After
-	public void tearDown() {
+	@AfterClass
+	public static void tearDown() {
 		r.close();
 	}
 	
