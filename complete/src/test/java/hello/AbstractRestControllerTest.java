@@ -52,7 +52,7 @@ public class AbstractRestControllerTest {
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public <T> T getForObject(String path,Class clazz,Object...values) {
+	public <T> T get(String path,Class clazz,Object...values) {
 		return (T) restTemplate.getForObject(getEntityURL(path), clazz, values);
 	}
 	

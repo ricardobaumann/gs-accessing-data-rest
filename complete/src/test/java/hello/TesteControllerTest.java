@@ -11,7 +11,7 @@ public class TesteControllerTest extends AbstractRestControllerTest{
 
 	@Test
 	public void testEmpty() throws Exception {
-		TestPage<Teste> teste = getForObject("coisa",TestPage.class);
+		TestPage<Teste> teste = get("coisa",TestPage.class);
 		Assert.assertNotNull(teste);
 		
 		Assert.assertEquals(teste.getNumberOfElements().intValue(), 0);
@@ -32,7 +32,7 @@ public class TesteControllerTest extends AbstractRestControllerTest{
 		
 		create();
 		
-		TestPage<Teste> page = getForObject("coisa",TestPage.class);
+		TestPage<Teste> page = get("coisa",TestPage.class);
 		
 		Assert.assertEquals(page.getTotalElements().intValue(), 1);
 	}
@@ -42,7 +42,7 @@ public class TesteControllerTest extends AbstractRestControllerTest{
 		
 		Teste created = create();
 		put("coisa/{id}", new Teste("updated"), created.getId());
-		Teste retrieved = getForObject("coisa/{id}", Teste.class, created.getId());
+		Teste retrieved = get("coisa/{id}", Teste.class, created.getId());
 		Assert.assertNotNull(retrieved);
 		Assert.assertEquals(created.getId(), retrieved.getId());
 		Assert.assertEquals(retrieved.getName(),"updated");
