@@ -11,8 +11,9 @@ public class TestPage<T> extends ResourceSupport{
 	
 	private Integer totalElements;
 
-    private Page page;
-
+    @SuppressWarnings("rawtypes")
+	private Page page;
+  
 	public T getContent() {
 		return content;
 	}
@@ -21,12 +22,14 @@ public class TestPage<T> extends ResourceSupport{
 		this.content = content;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public Page getPage() {
 		return page;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void setPage(Page page) {
-		this.page = page;
+		this.page = page;  
 	}
 
 	public Integer getNumberOfElements() {
